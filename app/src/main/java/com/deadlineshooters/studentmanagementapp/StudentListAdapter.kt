@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.deadlineshooters.studentmanagementapp.Models.Student
 
 class StudentListAdapter(private val context: MainActivity, private var studentList: List<Student>) : RecyclerView.Adapter<StudentListAdapter.ViewHolder>() {
 
@@ -61,7 +62,7 @@ class StudentListAdapter(private val context: MainActivity, private var studentL
         "${currentStudent.birthday} - ${currentStudent.gender}".also { holder.bdGender.text = it }
 
         // Get the drawable from the cache
-        var drawable = drawableCache.get(currentStudent.id)
+        var drawable = drawableCache.get(currentStudent.id.toString())
 
         // If the drawable is not in the cache, create it and add it to the cache
         if (drawable == null) {
@@ -75,7 +76,7 @@ class StudentListAdapter(private val context: MainActivity, private var studentL
             val yPos = (canvas.height / 2 - (paint.descent() + paint.ascent()) / 2).toFloat()
             canvas.drawText(text, xPos, yPos, paint)
             drawable = BitmapDrawable(context.resources, bitmap)
-            drawableCache.put(currentStudent.id, drawable)
+            drawableCache.put(currentStudent.id.toString(), drawable)
         }
 
         // Set the drawable

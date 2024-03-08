@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.deadlineshooters.studentmanagementapp.Models.Student
 import com.deadlineshooters.studentmanagementapp.databinding.ActivityCreateStudentBinding
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -72,7 +73,7 @@ class CreateStudentActivity : AppCompatActivity() {
                         else -> "Other"
                     }
 
-                    val newStudent = Student(firstName = firstName, lastName = lastName, className = className, birthday = birthday, gender = gender)
+                    val newStudent = Student(firstName, lastName, className, birthday, gender)
                     saveStudentData(newStudent)
                     Toast.makeText(this, "Student created successfully", Toast.LENGTH_SHORT).show()
                     Log.d("created", "$newStudent")

@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deadlineshooters.studentmanagementapp.Models.Student
 import com.deadlineshooters.studentmanagementapp.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import kotlinx.serialization.encodeToString
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         adapter.listener = object : StudentListAdapter.OnItemClickListener {
             override fun onItemClick(student: Student) {
                 val intent = Intent(this@MainActivity, EditStudentActivity::class.java)
-                intent.putExtra("student", student)
+                intent.putExtra("student", student.id.toString())
                 startActivity(intent)
             }
         }

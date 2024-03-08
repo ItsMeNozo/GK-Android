@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.deadlineshooters.studentmanagementapp.Models.Student
 import com.deadlineshooters.studentmanagementapp.databinding.ActivityEditStudentBinding
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -63,96 +64,97 @@ class EditStudentActivity : AppCompatActivity() {
         }
 
         // Retrieve the Student object from MainActivity
-        val student = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("student", Student::class.java)
-        } else {
-            intent.getParcelableExtra<Student>("student")
-        }
+//        val student = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            intent.getParcelableExtra("student", Student::class.java)
+//        } else {
+//            intent.getParcelableExtra<Student>("student")
+//        }
+        val student = intent.getStringExtra("student")
 
 
-        student?.let {
-            binding.etFullname.setText("${it.firstName} ${it.lastName}")
-            binding.etBd.setText(it.birthday)
+//        student?.let {
+//            binding.etFullname.setText("${it.firstName} ${it.lastName}")
+//            binding.etBd.setText(it.birthday)
+//
+//            when (it.gender) {
+//                "Male" -> binding.radioMale.isChecked = true
+//                "Female" -> binding.radioFemale.isChecked = true
+//                "Other" -> binding.radioOther.isChecked = true
+//            }
+//        }
 
-            when (it.gender) {
-                "Male" -> binding.radioMale.isChecked = true
-                "Female" -> binding.radioFemale.isChecked = true
-                "Other" -> binding.radioOther.isChecked = true
-            }
-        }
-
-        binding.btnSave.setOnClickListener {
-            // Perform validity check for birthday format
-            if (isValidDateFormat(binding.etBd.text.toString())) {
-                // Split the full name into first name and last name
-                val fullNameParts = binding.etFullname.text.toString().split(" ", limit = 2)
-                val firstName = fullNameParts.getOrElse(0) { "" }
-                val lastName = fullNameParts.getOrElse(1) { "" }
-
-                // Check if both first name and last name are provided
-                if (firstName.isNotBlank() && lastName.isNotBlank()) {
-                    // Check if all fields are filled
-                    if (isAllFieldsFilled()) {
-                        // Create a new Student object with the updated data
-                        val birthday = binding.etBd.text.toString()
-                        val className = binding.classButton.selectedItem.toString()
-                        val gender = when {
-                            binding.radioMale.isChecked -> "Male"
-                            binding.radioFemale.isChecked -> "Female"
-                            else -> "Other"
-                        }
-
-                        student?.let {
-                            val updatedStudent = Student(
-                                id = student.id,
-                                firstName = firstName,
-                                lastName = lastName,
-                                className = className,
-                                birthday = birthday,
-                                gender = gender
-                            )
-                            updateStudentData(updatedStudent)
-                        }
-
-                        // Navigate back to MainActivity
-                        val intent = Intent(this@EditStudentActivity, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        // Notify the user to fill all the fields
-                        Toast.makeText(
-                            this@EditStudentActivity,
-                            "Please fill all the fields",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    // Notify the user that both first name and last name are required
-                    Toast.makeText(
-                        this@EditStudentActivity,
-                        "Please provide both first name and last name",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } else {
-                // Notify the user about the invalid birthday format
-                Toast.makeText(
-                    this@EditStudentActivity,
-                    "Invalid birthday. Please use dd/mm/yyyy",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+//        binding.btnSave.setOnClickListener {
+//            // Perform validity check for birthday format
+//            if (isValidDateFormat(binding.etBd.text.toString())) {
+//                // Split the full name into first name and last name
+//                val fullNameParts = binding.etFullname.text.toString().split(" ", limit = 2)
+//                val firstName = fullNameParts.getOrElse(0) { "" }
+//                val lastName = fullNameParts.getOrElse(1) { "" }
+//
+//                // Check if both first name and last name are provided
+//                if (firstName.isNotBlank() && lastName.isNotBlank()) {
+//                    // Check if all fields are filled
+//                    if (isAllFieldsFilled()) {
+//                        // Create a new Student object with the updated data
+//                        val birthday = binding.etBd.text.toString()
+//                        val className = binding.classButton.selectedItem.toString()
+//                        val gender = when {
+//                            binding.radioMale.isChecked -> "Male"
+//                            binding.radioFemale.isChecked -> "Female"
+//                            else -> "Other"
+//                        }
+//
+//                        student?.let {
+//                            val updatedStudent = Student(
+//                                id = student.id,
+//                                firstName = firstName,
+//                                lastName = lastName,
+//                                className = className,
+//                                birthday = birthday,
+//                                gender = gender
+//                            )
+//                            updateStudentData(updatedStudent)
+//                        }
+//
+//                        // Navigate back to MainActivity
+//                        val intent = Intent(this@EditStudentActivity, MainActivity::class.java)
+//                        intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+//                        startActivity(intent)
+//                        finish()
+//                    } else {
+//                        // Notify the user to fill all the fields
+//                        Toast.makeText(
+//                            this@EditStudentActivity,
+//                            "Please fill all the fields",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                } else {
+//                    // Notify the user that both first name and last name are required
+//                    Toast.makeText(
+//                        this@EditStudentActivity,
+//                        "Please provide both first name and last name",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            } else {
+//                // Notify the user about the invalid birthday format
+//                Toast.makeText(
+//                    this@EditStudentActivity,
+//                    "Invalid birthday. Please use dd/mm/yyyy",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
 
 
-        binding.btnDelete.setOnClickListener {
-            student?.let { deleteStudent(it) }
-            // Navigate back to MainActivity
-            val intent = Intent(this@EditStudentActivity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
-        }
+//        binding.btnDelete.setOnClickListener {
+//            student?.let { deleteStudent(it) }
+//            // Navigate back to MainActivity
+//            val intent = Intent(this@EditStudentActivity, MainActivity::class.java)
+//            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+//            startActivity(intent)
+//        }
 
 /*        binding.classButton.setOnClickListener {
             val intent = Intent(this@EditStudentActivity, ChooseClassActivity::class.java)

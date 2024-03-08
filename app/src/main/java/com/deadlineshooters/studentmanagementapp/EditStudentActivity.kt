@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -11,7 +13,11 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+<<<<<<< HEAD
 import com.deadlineshooters.studentmanagementapp.Models.Student
+=======
+import androidx.core.text.HtmlCompat
+>>>>>>> c7cabaabdfdaa43f539b293e5d7ff2c833159c3e
 import com.deadlineshooters.studentmanagementapp.databinding.ActivityEditStudentBinding
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -161,6 +167,15 @@ class EditStudentActivity : AppCompatActivity() {
             intent.putExtra("selectedClass", binding.classButton.text.toString())
             resultLauncher.launch(intent)
         }*/
+        val html = "(<u>html link</u>)"
+        binding.gotoWebview.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+
+        binding.gotoWebview.setOnClickListener {
+            val intent = Intent(this, WebViewActivity::class.java).apply {
+                putExtra("student", student)
+            }
+            startActivity(intent)
+        }
     }
 
    /* var resultLauncher =

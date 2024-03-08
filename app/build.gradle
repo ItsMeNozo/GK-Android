@@ -3,7 +3,11 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize' // Parcelable
     id 'org.jetbrains.kotlin.plugin.serialization'
+<<<<<<< HEAD
     id 'io.realm.kotlin' version '1.11.0' apply false
+=======
+    id 'io.realm.kotlin'
+>>>>>>> 925a411cad279195999f5dcd4e1dc293f9bc3f9e
 }
 
 android {
@@ -57,6 +61,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'io.realm.kotlin:library-base:1.11.0'
     implementation 'io.realm.kotlin:library-sync:1.11.0'// If using Device Sync
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0' // If using coroutines with the SDK
+
+    implementation 'io.realm.kotlin:library-base:1.11.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0' // If using coroutines with the SDK
 
 }

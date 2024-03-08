@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">StudentManagementApp</string>
+    <string name="add_student">add student</string>
+    <string name="students">Students</string>
+    <string name="student_information">Student Information</string>
+    <string name="full_name">Full Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="classText">Class</string>
+    <string name="class_holder">class holder</string>
+    <string name="gender">Gender</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="choose_class">Choose Class</string>
+
+</resources>

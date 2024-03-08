@@ -13,4 +13,41 @@ class Student : RealmObject{
     var className: String = ""
     var birthday: String = ""
     var gender: String = ""
+
+    constructor(){
+        
+    }
+
+    constructor(
+        id: ObjectId,
+        firstName: String,
+        lastName: String,
+        className: String,
+        birthday: String,
+        gender: String
+    ) {
+        this.id = id
+        this.firstName = firstName
+        this.lastName = lastName
+        this.className = className
+        this.birthday = birthday
+        this.gender = gender
+    }
+
+    constructor(
+        firstName: String,
+        lastName: String,
+        className: String,
+        birthday: String,
+        gender: String
+    ) {
+        this.id = ObjectId()
+        this.firstName = firstName
+        this.lastName = lastName
+        this.className = className
+        this.birthday = birthday
+        this.gender = gender
+    }
+
+
 }

@@ -28,71 +28,71 @@ class CreateStudentActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         /** Bind adapter to class spinner */
-        val classes = arrayListOf<String>()
-
-        for (i in 1..10) {
-            classes.add("21KTPM$i")
-        }
-        val spinner: Spinner = findViewById(R.id.classButton)
-
-        ArrayAdapter(this, android.R.layout.simple_spinner_item, classes)
-            .also { adapter ->
-// Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(
-                    android.R.layout.simple_spinner_dropdown_item
-                )
-// Apply the adapter to the spinner
-                spinner.adapter = adapter
-            }
-
-        /** Using the data from the spinner */
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                // TODO: do nothing – needed by the interface
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val selectedItem = spinner.getItemAtPosition(p2) as String
-                Log.d("selectedItem", "Selected item: $selectedItem")
-                binding.classButton.setSelection(p2)
-            }
-        }
-
-        binding.btnSave.setOnClickListener {
-            if (isValidDateFormat(binding.etBd.text.toString())) {
-                // Date format is valid
-                if (isAllFieldsFilled()) {
-                    // All fields are filled
-                    val firstName = binding.etFullname.text.toString().split(" ")[0]
-                    val lastName = if (binding.etFullname.text.contains(" ")) binding.etFullname.text.toString().split(" ")[1] else ""
-                    val birthday = binding.etBd.text.toString()
-                    val className = binding.classButton.selectedItem.toString()
-                    val gender = when {
-                        binding.radioMale.isChecked -> "Male"
-                        binding.radioFemale.isChecked -> "Female"
-                        else -> "Other"
-                    }
-
-                    val newStudent = Student(firstName, lastName, className, birthday, gender)
-                    saveStudentData(newStudent)
-                    Toast.makeText(this, "Student created successfully", Toast.LENGTH_SHORT).show()
-                    Log.d("created", "$newStudent")
-
-                    val intent = Intent(this@CreateStudentActivity, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-
-                    startActivity(intent)
-                    finish()
-                } else {
-                    // Some fields are empty
-                    Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                // Invalid date format
-                Toast.makeText(this, "Invalid date format. Please enter a valid date.", Toast.LENGTH_SHORT).show()
-            }
-
-        }
+//        val classes = arrayListOf<String>()
+//
+//        for (i in 1..10) {
+//            classes.add("21KTPM$i")
+//        }
+//        val spinner: Spinner = findViewById(R.id.classButton)
+//
+//        ArrayAdapter(this, android.R.layout.simple_spinner_item, classes)
+//            .also { adapter ->
+//// Specify the layout to use when the list of choices appears
+//                adapter.setDropDownViewResource(
+//                    android.R.layout.simple_spinner_dropdown_item
+//                )
+//// Apply the adapter to the spinner
+//                spinner.adapter = adapter
+//            }
+//
+//        /** Using the data from the spinner */
+//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//                // TODO: do nothing – needed by the interface
+//            }
+//
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                val selectedItem = spinner.getItemAtPosition(p2) as String
+//                Log.d("selectedItem", "Selected item: $selectedItem")
+//                binding.classButton.setSelection(p2)
+//            }
+//        }
+//
+//        binding.btnSave.setOnClickListener {
+//            if (isValidDateFormat(binding.etBd.text.toString())) {
+//                // Date format is valid
+//                if (isAllFieldsFilled()) {
+//                    // All fields are filled
+//                    val firstName = binding.etFullname.text.toString().split(" ")[0]
+//                    val lastName = if (binding.etFullname.text.contains(" ")) binding.etFullname.text.toString().split(" ")[1] else ""
+//                    val birthday = binding.etBd.text.toString()
+//                    val className = binding.classButton.selectedItem.toString()
+//                    val gender = when {
+//                        binding.radioMale.isChecked -> "Male"
+//                        binding.radioFemale.isChecked -> "Female"
+//                        else -> "Other"
+//                    }
+//
+//                    val newStudent = Student(firstName, lastName, className, birthday, gender)
+//                    saveStudentData(newStudent)
+//                    Toast.makeText(this, "Student created successfully", Toast.LENGTH_SHORT).show()
+//                    Log.d("created", "$newStudent")
+//
+//                    val intent = Intent(this@CreateStudentActivity, MainActivity::class.java)
+//                    intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+//
+//                    startActivity(intent)
+//                    finish()
+//                } else {
+//                    // Some fields are empty
+//                    Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+//                }
+//            } else {
+//                // Invalid date format
+//                Toast.makeText(this, "Invalid date format. Please enter a valid date.", Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }
 
     }
 

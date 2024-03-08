@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.util.LruCache
 import android.view.LayoutInflater
 import android.view.View
@@ -57,6 +58,7 @@ class StudentListAdapter(private val context: MainActivity, private var studentL
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentStudent = studentList[position]
+        Log.d("tmpStudent", currentStudent.toString())
         "${currentStudent.firstName} ${currentStudent.lastName}".also { holder.fullName.text = it }
         holder.className.text = currentStudent.className
         "${currentStudent.birthday} - ${currentStudent.gender}".also { holder.bdGender.text = it }

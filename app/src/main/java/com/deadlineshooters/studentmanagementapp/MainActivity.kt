@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deadlineshooters.studentmanagementapp.Models.Student
 import com.deadlineshooters.studentmanagementapp.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
+import io.realm.kotlin.Realm
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.BufferedReader
@@ -35,11 +36,12 @@ class MainActivity : AppCompatActivity() {
 
     //    var studentListView: ListView? = null
     private var studentRV: RecyclerView? = null
-    private  var density : Float = 0f
+    private var density : Float = 0f
     private lateinit var adapter: StudentListAdapter
     private lateinit var adapterAutoCompleteTV: ArrayAdapter<String>
     private var addButton: ImageView? = null
     private lateinit var binding: ActivityMainBinding
+    private val dbHandler = DBHandler.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +49,26 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        density = resources.displayMetrics.density
+        dbHandler.readAll().forEach {
+            students.add(it)
+        }
+//         students.addAll(dbHandler.realm.copyFromRealm(dbHandler.readAll())) as ArrayList<Student>
+        students = dbHandler.readAll() as ArrayList<Student>
+//        dumpStudents.forEach {
+//            val tmp = Student(it.id, it.firstName, it.lastName, it.className, it.birthday, it.gender)
+//            students.add(tmp)
+//        }
+//        Log.d("MainActivity", students.toString())
 
+        density = resources.displayMetrics.density
+//
 //        studentListView = findViewById(R.id.lv_student)
         studentRV = findViewById(R.id.rv_students)
-
-        createDummyData()
-//        clearData()
-        readData()
-
+//
+//        createDummyData()
+////        clearData()
+//        readData()
+//
         adapter = StudentListAdapter(this, students)
         studentRV!!.adapter = adapter
 
@@ -70,11 +83,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Retrieve the Student object from EditStudentActivity
-        val student = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("student", Student::class.java)
-        } else {
-            intent.getParcelableExtra<Student>("student")
-        }
+//        val student = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            intent.getParcelableExtra("student", Student::class.java)
+//        } else {
+//            intent.getParcelableExtra<Student>("student")
+//        }
 
         addButton = findViewById(R.id.vector_button)
         addButton?.setOnClickListener {
@@ -177,7 +190,7 @@ class MainActivity : AppCompatActivity() {
         // Check if data has changed before refreshing
         val previousSize = students.size
         students.clear()
-        readData()
+//        readData()
         adapter.notifyDataSetChanged()
 
         // Update the data in the ArrayAdapter and the AutoCompleteTextView
@@ -187,84 +200,44 @@ class MainActivity : AppCompatActivity() {
         binding.autoTVStudent.setText("")
     }
 
-    /*private fun createDummyData() {
 
-        val file = File(getExternalFilesDir(null), "students_data.txt")
-        if (!file.exists()) {
-            file.createNewFile()
-        }
+//    private fun createDummyData() {
+//        Log.d("MainActivity", "Im called again")
+//
+//        val file = File(getExternalFilesDir(null), "students_data.json")
+//        if (!file.exists()) {
+//            file.createNewFile()
+//        }
+//
+//        file.printWriter().use { out ->
+//            repeat(10) {
+//                val student = Student(
+//                    firstName = "Victoria",
+//                    lastName = "Niego",
+//                    className = "21KTPM1",
+//                    birthday = "01/01/2003",
+//                    gender = "Female"
+//                )
+//
+//                out.println(Json.encodeToString(student))
+//            }
+//        }
+//    }
 
-        file.printWriter().use { out ->
-            repeat(3) {
-                val student = Student(
-                    firstName = "Victoria",
-                    lastName = "Niego",
-                    className = "21KTPM1",
-                    birthday = "01/01/2003",
-                    gender = "Female"
-                )
-                out.println("${student.id},${student.firstName},${student.lastName},${student.className},${student.birthday},${student.gender}")
-            }
-        }
-    }
-
-    private fun readData() {
-        val file = File(getExternalFilesDir(null), "students_data.txt")
-        Log.d("MainActivity", "Directory of students_data.txt: ${file.absolutePath}")
-
-
-        file.forEachLine { line ->
-            val parts = line.split(",")
-            if (parts.size >= 6) {
-                val student = Student(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5])
-                students.add(student)
-            }
-        }
-    }
-
-    private fun clearData() {
-        val file = File(getExternalFilesDir(null), "students_data.txt")
-        if (file.exists()) {
-            file.writeText("")
-        }
-    }*/
-    private fun createDummyData() {
-        Log.d("MainActivity", "Im called again")
-
-        val file = File(getExternalFilesDir(null), "students_data.json")
-        if (!file.exists()) {
-            file.createNewFile()
-        }
-
-        file.printWriter().use { out ->
-            repeat(10) {
-                val student = Student(
-                    firstName = "Victoria",
-                    lastName = "Niego",
-                    className = "21KTPM1",
-                    birthday = "01/01/2003",
-                    gender = "Female"
-                )
-
-                out.println(Json.encodeToString(student))
-            }
-        }
-    }
-
-    private fun readData() {
-        val file = File(getExternalFilesDir(null), "students_data.json")
-        Log.d("MainActivity", "Directory of students_data.json: ${file.absolutePath}")
-
-        file.forEachLine { line ->
-            val student = Json.decodeFromString<Student>(line)
-            students.add(student)
-        }
-    }
-
-    private fun clearData() {
-        val file = File(getExternalFilesDir(null), "students_data.json")
-        if (file.exists()) {
-            file.writeText("")
-        }
-    }
+//    private fun readData() {
+//        val file = File(getExternalFilesDir(null), "students_data.json")
+//        Log.d("MainActivity", "Directory of students_data.json: ${file.absolutePath}")
+//
+//        file.forEachLine { line ->
+//            val student = Json.decodeFromString<Student>(line)
+//            students.add(student)
+//        }
+//    }
+//
+//    private fun clearData() {
+//        val file = File(getExternalFilesDir(null), "students_data.json")
+//        if (file.exists()) {
+//            file.writeText("")
+//        }
+//    }
 }

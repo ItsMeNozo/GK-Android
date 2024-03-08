@@ -3,6 +3,7 @@ package com.deadlineshooters.studentmanagementapp
 import android.graphics.drawable.Drawable
 
 import android.os.Parcelable
+import io.realm.kotlin.types.RealmObject
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import kotlinx.serialization.Serializable
@@ -16,5 +17,5 @@ data class Student(
     val className: String,
     val birthday: String,
     val gender: String,
-) : Parcelable
+) : Parcelable, RealmObject
 

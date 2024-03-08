@@ -16,5 +16,8 @@ data class Student(
     val className: String,
     val birthday: String,
     val gender: String,
-) : Parcelable
+) : Parcelable {
+    val fullName: String
+        get() = "$firstName $lastName"
+}
 

@@ -159,6 +159,13 @@ class EditStudentActivity : AppCompatActivity() {
             intent.putExtra("selectedClass", binding.classButton.text.toString())
             resultLauncher.launch(intent)
         }*/
+
+        binding.gotoWebview.setOnClickListener {
+            val intent = Intent(this, WebViewActivity::class.java).apply {
+                putExtra("student", student)
+            }
+            startActivity(intent)
+        }
     }
 
    /* var resultLauncher =
